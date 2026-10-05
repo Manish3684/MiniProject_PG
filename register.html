@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Register</title>
+
+    <link rel="stylesheet"
+      href="{{ url_for('static',
+      filename='style1.css') }}">
+</head>
+
+<body class="auth-body">
+
+<div class="auth-card">
+
+    <h1>
+        Industrial Sound AI
+    </h1>
+
+    <h2>
+        New User Registration
+    </h2>
+
+
+    {% with messages =
+       get_flashed_messages() %}
+
+        {% for message in messages %}
+
+            <div class="flash">
+                {{ message }}
+            </div>
+
+        {% endfor %}
+
+    {% endwith %}
+
+
+    <form method="POST">
+
+        <label>
+            Name
+        </label>
+
+        <input
+            type="text"
+            name="name"
+            required
+        >
+
+
+        <label>
+            Email
+        </label>
+
+        <input
+            type="email"
+            name="email"
+            required
+        >
+
+
+        <label>
+            Password
+        </label>
+
+        <input
+            type="password"
+            name="password"
+            required
+        >
+
+
+        <label>
+            Confirm Password
+        </label>
+
+        <input
+            type="password"
+            name="confirm_password"
+            required
+        >
+
+
+        <button type="submit">
+            REGISTER
+        </button>
+
+    </form>
+
+
+    <p>
+
+        Already registered?
+
+        <a href="{{ url_for('login') }}">
+            Login
+        </a>
+
+    </p>
+
+</div>
+
+</body>
+
+</html>

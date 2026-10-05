@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>
+    Model Performance
+</h1>
+
+<table>
+
+    <thead>
+
+        <tr>
+
+            <th>
+                Machine
+            </th>
+
+            <th>
+                SNR
+            </th>
+
+            <th>
+                Model
+            </th>
+
+            <th>
+                Accuracy
+            </th>
+
+            <th>
+                Precision
+            </th>
+
+            <th>
+                Recall
+            </th>
+
+            <th>
+                F1 Score
+            </th>
+
+        </tr>
+
+    </thead>
+
+
+    <tbody>
+
+    {% for record in records %}
+
+        <tr>
+
+            <td>
+                {{ record.machine }}
+            </td>
+
+            <td>
+                {{ record.snr }}
+            </td>
+
+            <td>
+                <b>
+                    {{ record.model }}
+                </b>
+            </td>
+
+            <td>
+                {{ "%.2f"|format(record.accuracy) }}%
+            </td>
+
+            <td>
+                {{ "%.2f"|format(record.precision) }}%
+            </td>
+
+            <td>
+                {{ "%.2f"|format(record.recall) }}%
+            </td>
+
+            <td>
+                {{ "%.2f"|format(record.f1) }}%
+            </td>
+
+        </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}

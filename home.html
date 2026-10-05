@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>
+    Welcome, {{ user }}
+</h1>
+
+<p class="subtitle">
+    Industrial Machine Sound Classification Dashboard
+</p>
+
+
+<div class="cards">
+
+    <div class="card">
+
+        <h3>
+            Total Tests
+        </h3>
+
+        <div class="number">
+            {{ total_tests }}
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            Machine Types
+        </h3>
+
+        <div class="number">
+            2
+        </div>
+
+        <p>
+            Fan / Pump
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            SNR Types
+        </h3>
+
+        <div class="number">
+            3
+        </div>
+
+        <p>
+            -6 / 0 / +6 dB
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            Models
+        </h3>
+
+        <div class="number">
+            {{ models_count }}
+        </div>
+
+        <p>
+            ERT / LDA / LGBM / SVM / GB
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            Best Accuracy
+        </h3>
+
+        <div class="number">
+            {{ best_accuracy }}%
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="quick">
+
+    <a href="{{ url_for('testing') }}">
+        Start Dataset Testing
+    </a>
+
+    <a href="{{ url_for('comparison') }}">
+        Model Comparison
+    </a>
+
+</div>
+
+{% endblock %}

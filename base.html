@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Industrial Sound Classification
+    </title>
+
+    <link rel="stylesheet"
+      href="{{ url_for('static',
+      filename='style1.css') }}">
+
+</head>
+
+<body>
+
+{% if session.get("user") %}
+
+<nav>
+
+    <div class="logo">
+        Industrial Sound AI
+    </div>
+
+    <div class="nav-links">
+
+        <a href="{{ url_for('home') }}">
+            Home
+        </a>
+
+        <a href="{{ url_for('datasets') }}">
+            Datasets
+        </a>
+
+        <a href="{{ url_for('add_dataset') }}">
+            Add Dataset
+        </a>
+
+        <a href="{{ url_for('testing') }}">
+            Testing
+        </a>
+
+        <a href="{{ url_for('performance') }}">
+            Performance
+        </a>
+
+        <a href="{{ url_for('history') }}">
+            History
+        </a>
+
+        <a href="{{ url_for('comparison') }}">
+            Comparison
+        </a>
+
+        <a class="logout"
+           href="{{ url_for('logout') }}">
+            Logout
+        </a>
+
+    </div>
+
+</nav>
+
+{% endif %}
+
+
+<div class="page">
+
+    {% with messages =
+       get_flashed_messages() %}
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div class="flash">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    {% block content %}
+
+    {% endblock %}
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,313 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SoundAI — Industrial Sound Classification</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginPage" class="auth-page">
+    <div class="brand-section">
+        <div class="logo">◉ Sound<span>AI</span></div>
+        <div class="brand-content">
+            <p class="tag">INDUSTRIAL INTELLIGENCE</p>
+            <h1>Industrial Sound <span>Classification</span></h1>
+            <p class="description">
+                AI-powered acoustic analysis platform for industrial
+                equipment using machine learning.
+            </p>
+        </div>
+    </div>
+
+    <div class="login-section">
+        <div class="login-box">
+            <p class="tag">WELCOME BACK</p>
+            <h2>Sign In</h2>
+            <p class="sub-text">Login to access your classification dashboard.</p>
+
+            <form id="loginForm">
+                <label>Email</label>
+                <input id="loginEmail" type="email" placeholder="Enter your email" required>
+
+                <label>Password</label>
+                <div class="password-wrapper">
+                    <input id="loginPassword" type="password"
+                           placeholder="Enter your password" required>
+                    <button type="button" class="eye-btn"
+                            onclick="togglePassword('loginPassword',this)"
+                            title="Show password" aria-label="Show password">👁</button>
+                </div>
+
+                <div id="loginMessage" class="message"></div>
+                <button class="main-btn" type="submit">LOGIN →</button>
+            </form>
+
+            <div class="or"><span>OR</span></div>
+
+            <p class="register-text">
+                New user?
+                <button type="button" onclick="showRegister()">Create an account</button>
+            </p>
+        </div>
+    </div>
+</div>
+
+
+<!-- REGISTER / ACCOUNT -->
+<div id="registerPage" class="auth-page hidden">
+    <div class="brand-section">
+        <div class="logo">◉ Sound<span>AI</span></div>
+        <div class="brand-content">
+            <p class="tag">CREATE ACCOUNT</p>
+            <h1>Start your <span>AI journey.</span></h1>
+            <p class="description">
+                Create your account and access the complete Industrial Sound
+                Classification platform.
+            </p>
+        </div>
+    </div>
+
+    <div class="login-section">
+        <div class="login-box">
+            <p class="tag">GET STARTED</p>
+            <h2>Create Account</h2>
+            <p class="sub-text">Register to access the platform.</p>
+
+            <form id="registerForm">
+                <label>Full Name</label>
+                <input id="registerName" type="text" placeholder="Enter your name" required>
+
+                <label>Email</label>
+                <input id="registerEmail" type="email" placeholder="Enter your email" required>
+
+                <label>Password</label>
+                <div class="password-wrapper">
+                    <input id="registerPassword" type="password"
+                           placeholder="Create password" required>
+                    <button type="button" class="eye-btn"
+                            onclick="togglePassword('registerPassword',this)"
+                            title="Show password" aria-label="Show password">👁</button>
+                </div>
+
+                <label>Confirm Password</label>
+                <div class="password-wrapper">
+                    <input id="confirmPassword" type="password"
+                           placeholder="Confirm password" required>
+                    <button type="button" class="eye-btn"
+                            onclick="togglePassword('confirmPassword',this)"
+                            title="Show password" aria-label="Show password">👁</button>
+                </div>
+
+                <div id="registerMessage" class="message"></div>
+                <button class="main-btn" type="submit">CREATE ACCOUNT →</button>
+            </form>
+
+            <p class="register-text" style="margin-top:20px">
+                Already have an account?
+                <button type="button" onclick="showLogin()">Login</button>
+            </p>
+        </div>
+    </div>
+</div>
+
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="hidden">
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo">◉ Sound<span>AI</span></div>
+            <small>Industrial Intelligence</small>
+        </div>
+
+        <nav>
+            <button class="nav active" data-page="home" onclick="openPage('home',this)">🏠 Home</button>
+            <button class="nav" data-page="datasets" onclick="openPage('datasets',this)">📁 Datasets</button>
+            <button class="nav" data-page="addDataset" onclick="openPage('addDataset',this)">➕ Add Dataset</button>
+            <button class="nav" data-page="testing" onclick="openPage('testing',this)">🧪 Testing</button>
+            <button class="nav" data-page="performance" onclick="openPage('performance',this)">📈 Performance</button>
+            <button class="nav" data-page="history" onclick="openPage('history',this)">🕘 History</button>
+            <button class="nav" data-page="comparison" onclick="openPage('comparison',this)">⚖️ Comparison</button>
+            <button class="nav" data-page="confusion" onclick="openPage('confusion',this)">📊 Confusion Matrix</button>
+        </nav>
+
+        <div class="sidebar-user">
+            <div class="avatar" id="sidebarAvatar">A</div>
+            <div class="sidebar-user-info">
+                <strong id="sidebarName">User</strong>
+                <small id="sidebarEmail">user@email.com</small>
+            </div>
+        </div>
+
+        <button class="logout" onclick="logout()">↪ Logout</button>
+    </aside>
+
+    <main class="main">
+        <header>
+            <div>
+                <small>INDUSTRIAL SOUND CLASSIFICATION</small>
+                <h2 id="pageTitle">Home</h2>
+            </div>
+
+            <div class="user-top">
+                <span class="online"></span>
+                <span id="topUserName">User</span>
+                <div class="avatar top-avatar" id="topAvatar">A</div>
+            </div>
+        </header>
+
+
+        <!-- HOME -->
+        <section id="home" class="page active-page">
+            <div class="hero">
+                <p class="tag">AI ANALYTICS PLATFORM</p>
+                <h1>Industrial sound, <span>decoded.</span></h1>
+                <p>
+                    Analyse Fan and Pump acoustic signals across
+                    -6 dB, 0 dB and +6 dB conditions using a complete
+                    dataset-based machine-learning workflow.
+                </p>
+                <button class="main-btn" onclick="openPageByName('testing')">
+                    START TESTING →
+                </button>
+            </div>
+
+            <div class="cards">
+                <div class="card"><small>DATASETS</small><h2>06</h2><p>Fan + Pump</p></div>
+                <div class="card"><small>SNR CONDITIONS</small><h2>03</h2><p>-6 / 0 / +6 dB</p></div>
+                <div class="card"><small>ML MODELS</small><h2>05</h2><p>All configured models</p></div>
+                <div class="card"><small>ANALYTICS</small><h2>09+</h2><p>Performance metrics</p></div>
+            </div>
+        </section>
+
+
+        <!-- DATASETS -->
+        <section id="datasets" class="page">
+            <h3 class="page-title">Available Datasets</h3>
+            <div id="datasetCards" class="dataset-grid"></div>
+            <p class="dataset-note">
+                Each selection represents a complete dataset folder. Testing
+                processes every relevant WAV file inside the selected folder
+                recursively; no single-file testing is used.
+            </p>
+            <div id="datasetMessage" class="message"></div>
+        </section>
+
+
+        <!-- ADD DATASET -->
+        <section id="addDataset" class="page">
+            <h3 class="page-title">Add Dataset</h3>
+            <div class="form-card">
+                <label>Machine Type</label>
+                <select id="addMachine">
+                    <option>Fan</option>
+                    <option>Pump</option>
+                </select>
+
+                <label>SNR Level</label>
+                <select id="addSnr">
+                    <option>-6 dB</option>
+                    <option>0 dB</option>
+                    <option>+6 dB</option>
+                </select>
+
+                <p class="dataset-note">
+                    Dataset upload is intentionally kept separate from Testing.
+                    The Testing page uses server-side dataset folders so the
+                    complete dataset can be processed.
+                </p>
+            </div>
+        </section>
+
+
+        <!-- TESTING -->
+        <section id="testing" class="page">
+            <h3 class="page-title">Run Classification Test</h3>
+
+            <div class="form-card">
+                <label>Select Complete Dataset</label>
+                <select id="testDataset"></select>
+
+                <p class="dataset-note">
+                    Example: selecting <b>-6 dB</b> loads every WAV file under
+                    the selected -6 dB folder, preprocesses all valid audio,
+                    extracts 24 features, applies the train/test workflow,
+                    and evaluates all five models.
+                </p>
+
+                <div id="testMessage" class="message"></div>
+
+                <button id="runModelsButton" class="main-btn" type="button">
+                    RUN ALL 5 MODELS →
+                </button>
+
+                <div id="testStatus" class="run-status"></div>
+            </div>
+        </section>
+
+
+        <!-- PERFORMANCE -->
+        <section id="performance" class="page">
+            <h3 class="page-title">Performance Analysis</h3>
+            <div id="performanceCards"></div>
+        </section>
+
+
+        <!-- HISTORY -->
+        <section id="history" class="page">
+            <h3 class="page-title">Performance History</h3>
+
+            <div class="history">
+                <div class="history-head">
+                    <span>TIME</span>
+                    <span>DATASET</span>
+                    <span>MODEL</span>
+                    <span>ACCURACY</span>
+                    <span>PRECISION</span>
+                    <span>RECALL</span>
+                    <span>F1-SCORE</span>
+                </div>
+
+                <div id="historyBody">
+                    <div class="empty">No model executions yet.</div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- COMPARISON -->
+        <section id="comparison" class="page">
+            <h3 class="page-title">Model Comparison</h3>
+
+            <div class="comparison">
+                <div class="comparison-head">
+                    <span>MODEL</span>
+                    <span>ACCURACY</span>
+                    <span>PRECISION</span>
+                    <span>RECALL</span>
+                    <span>F1-SCORE</span>
+                </div>
+                <div id="comparisonBody"></div>
+            </div>
+
+            <div class="comparison-bars">
+                <h3>Accuracy Visualization</h3>
+                <div id="comparisonBars"></div>
+            </div>
+        </section>
+
+
+        <!-- CONFUSION -->
+        <section id="confusion" class="page">
+            <h3 class="page-title">Confusion Matrix</h3>
+            <div id="confusionContainer"></div>
+        </section>
+    </main>
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>

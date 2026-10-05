@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>
+    Testing History
+</h1>
+
+<table>
+
+    <thead>
+
+        <tr>
+
+            <th>
+                Date
+            </th>
+
+            <th>
+                Machine
+            </th>
+
+            <th>
+                SNR
+            </th>
+
+            <th>
+                Model
+            </th>
+
+            <th>
+                Files
+            </th>
+
+            <th>
+                Accuracy
+            </th>
+
+            <th>
+                Precision
+            </th>
+
+            <th>
+                Recall
+            </th>
+
+            <th>
+                F1
+            </th>
+
+        </tr>
+
+    </thead>
+
+
+    <tbody>
+
+    {% for record in records %}
+
+        <tr>
+
+            <td>
+                {{ record.date }}
+            </td>
+
+            <td>
+                {{ record.machine }}
+            </td>
+
+            <td>
+                {{ record.snr }}
+            </td>
+
+            <td>
+                {{ record.model }}
+            </td>
+
+            <td>
+                {{ record.total_files }}
+            </td>
+
+            <td>
+                {{ "%.2f"|format(record.accuracy) }}%
+            </td>
+
+            <td>
+                {{ "%.2f"|format(record.precision) }}%
+            </td>
+
+            <td>
+                {{ "%.2f"|format(record.recall) }}%
+            </td>
+
+            <td>
+                {{ "%.2f"|format(record.f1) }}%
+            </td>
+
+        </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}

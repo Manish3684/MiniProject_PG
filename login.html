@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Login</title>
+
+   <link rel="stylesheet"
+      href="{{ url_for('static',
+      filename='style1.css') }}">
+
+</head>
+
+<body class="auth-body">
+
+<div class="auth-card">
+
+    <h1>
+        Industrial Sound AI
+    </h1>
+
+    <h2>
+        Login
+    </h2>
+
+    {% with messages =
+       get_flashed_messages() %}
+
+        {% for message in messages %}
+
+            <div class="flash">
+                {{ message }}
+            </div>
+
+        {% endfor %}
+
+    {% endwith %}
+
+
+    <form method="POST">
+
+        <label>
+            Email
+        </label>
+
+        <input
+            type="email"
+            name="email"
+            required
+        >
+
+
+        <label>
+            Password
+        </label>
+
+        <input
+            type="password"
+            name="password"
+            required
+        >
+
+
+        <button type="submit">
+            LOGIN
+        </button>
+
+    </form>
+
+
+    <p>
+        New User?
+
+        <a href="{{ url_for('register') }}">
+            Register here
+        </a>
+
+    </p>
+
+</div>
+
+</body>
+
+</html> 

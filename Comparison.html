@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>
+    Model Comparison
+</h1>
+
+<p class="subtitle">
+    ERT vs LDA vs LGBM vs SVM vs GB
+</p>
+
+
+<table>
+
+    <thead>
+
+        <tr>
+
+            <th>
+                Machine
+            </th>
+
+            <th>
+                SNR
+            </th>
+
+            <th>
+                Model
+            </th>
+
+            <th>
+                Accuracy
+            </th>
+
+            <th>
+                Precision
+            </th>
+
+            <th>
+                Recall
+            </th>
+
+            <th>
+                F1
+            </th>
+
+        </tr>
+
+    </thead>
+
+
+    <tbody>
+
+    {% for record in records %}
+
+        <tr>
+
+            <td>
+                {{ record.machine }}
+            </td>
+
+            <td>
+                {{ record.snr }}
+            </td>
+
+            <td>
+                <b>
+                    {{ record.model }}
+                </b>
+            </td>
+
+            <td>
+                {{ "%.2f"|format(record.accuracy) }}%
+            </td>
+
+            <td>
+                {{ "%.2f"|format(record.precision) }}%
+            </td>
+
+            <td>
+                {{ "%.2f"|format(record.recall) }}%
+            </td>
+
+            <td>
+                {{ "%.2f"|format(record.f1) }}%
+            </td>
+
+        </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+
+<div class="comparison-box">
+
+    <h2>
+        Evaluation Metrics
+    </h2>
+
+    <p>
+        Accuracy
+    </p>
+
+    <p>
+        Precision
+    </p>
+
+    <p>
+        Recall
+    </p>
+
+    <p>
+        F1 Score
+    </p>
+
+    <p>
+        Confusion Matrix
+    </p>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,310 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>
+    Dataset Testing
+</h1>
+
+<div class="form-card">
+
+<form method="POST">
+
+    <label>
+        Select Machine
+    </label>
+
+    <select
+        name="machine"
+        required
+    >
+
+        <option value="">
+            Select Machine
+        </option>
+
+        <option value="Fan">
+            Fan
+        </option>
+
+        <option value="Pump">
+            Pump
+        </option>
+
+    </select>
+
+
+    <label>
+        Select SNR
+    </label>
+
+    <select
+        name="snr"
+        required
+    >
+
+        <option value="">
+            Select SNR
+        </option>
+
+        <option value="-6dB">
+            -6 dB
+        </option>
+
+        <option value="0dB">
+            0 dB
+        </option>
+
+        <option value="+6dB">
+            +6 dB
+        </option>
+
+    </select>
+
+
+    <button type="submit">
+        RUN ALL 5 MODELS
+    </button>
+
+</form>
+
+</div>
+
+
+{% if error %}
+
+<div class="error">
+
+    {{ error }}
+
+</div>
+
+{% endif %}
+
+
+{% if results %}
+
+<h2>
+    Dataset Result
+</h2>
+
+
+<div class="result-summary">
+
+    <div>
+        <b>Machine</b>
+        <span>
+            {{ results.machine }}
+        </span>
+    </div>
+
+    <div>
+        <b>SNR</b>
+        <span>
+            {{ results.snr }}
+        </span>
+    </div>
+
+</div>
+
+
+{% for machine_id, machine_data
+   in results.machine_results.items() %}
+
+
+<div class="machine-result">
+
+    <h2>
+        Machine ID: {{ machine_id }}
+    </h2>
+
+
+    <p>
+        Total Files:
+        <b>
+            {{ machine_data.total_files }}
+        </b>
+    </p>
+
+
+    <p>
+        Normal:
+        <b>
+            {{ machine_data.normal }}
+        </b>
+    </p>
+
+
+    <p>
+        Abnormal:
+        <b>
+            {{ machine_data.abnormal }}
+        </b>
+    </p>
+
+
+    <h3>
+        Model Performance
+    </h3>
+
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>
+                    Model
+                </th>
+
+                <th>
+                    Accuracy
+                </th>
+
+                <th>
+                    Precision
+                </th>
+
+                <th>
+                    Recall
+                </th>
+
+                <th>
+                    F1 Score
+                </th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+        {% for model, data
+           in machine_data.models.items() %}
+
+            <tr>
+
+                <td>
+                    <b>
+                        {{ model }}
+                    </b>
+                </td>
+
+                <td>
+                    {{ data.accuracy }}%
+                </td>
+
+                <td>
+                    {{ data.precision }}%
+                </td>
+
+                <td>
+                    {{ data.recall }}%
+                </td>
+
+                <td>
+                    {{ data.f1 }}%
+                </td>
+
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+
+    <h3>
+        Confusion Matrices
+    </h3>
+
+
+    <div class="matrix-grid">
+
+
+    {% for model, data
+       in machine_data.models.items() %}
+
+
+        <div class="matrix-card">
+
+            <h3>
+                {{ model }}
+            </h3>
+
+
+            {% set cm =
+               data.confusion_matrix %}
+
+
+            <table class="matrix">
+
+                <tr>
+
+                    <th></th>
+
+                    <th>
+                        Pred Normal
+                    </th>
+
+                    <th>
+                        Pred Abnormal
+                    </th>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Actual Normal
+                    </th>
+
+                    <td>
+                        {{ cm[0][0] }}
+                    </td>
+
+                    <td>
+                        {{ cm[0][1] }}
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Actual Abnormal
+                    </th>
+
+                    <td>
+                        {{ cm[1][0] }}
+                    </td>
+
+                    <td>
+                        {{ cm[1][1] }}
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+
+    {% endfor %}
+
+    </div>
+
+
+</div>
+
+
+{% endfor %}
+
+{% endif %}
+
+{% endblock %}

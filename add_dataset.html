@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>
+    Add Dataset
+</h1>
+
+<div class="form-card">
+
+<form
+    method="POST"
+    enctype="multipart/form-data"
+>
+
+
+    <label>
+        Machine Type
+    </label>
+
+    <select
+        name="machine"
+        required
+    >
+
+        <option value="">
+            Select Machine
+        </option>
+
+        <option value="Fan">
+            Fan
+        </option>
+
+        <option value="Pump">
+            Pump
+        </option>
+
+    </select>
+
+
+    <label>
+        SNR
+    </label>
+
+    <select
+        name="snr"
+        required
+    >
+
+        <option value="-6dB">
+            -6 dB
+        </option>
+
+        <option value="0dB">
+            0 dB
+        </option>
+
+        <option value="+6dB">
+            +6 dB
+        </option>
+
+    </select>
+
+
+    <label>
+        Condition
+    </label>
+
+    <select
+        name="condition"
+        required
+    >
+
+        <option value="normal">
+            Normal
+        </option>
+
+        <option value="abnormal">
+            Abnormal
+        </option>
+
+    </select>
+
+
+    <label>
+        WAV Files
+    </label>
+
+    <input
+        type="file"
+        name="audio_files"
+        accept=".wav"
+        multiple
+        required
+    >
+
+
+    <button type="submit">
+        UPLOAD DATASET
+    </button>
+
+</form>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>
+    Datasets
+</h1>
+
+<table>
+
+    <thead>
+
+        <tr>
+
+            <th>
+                Machine
+            </th>
+
+            <th>
+                SNR
+            </th>
+
+            <th>
+                Machine IDs
+            </th>
+
+            <th>
+                WAV Files
+            </th>
+
+            <th>
+                Status
+            </th>
+
+        </tr>
+
+    </thead>
+
+
+    <tbody>
+
+    {% for item in datasets %}
+
+        <tr>
+
+            <td>
+                {{ item.machine }}
+            </td>
+
+            <td>
+                {{ item.snr }}
+            </td>
+
+            <td>
+                {{ item.machine_ids }}
+            </td>
+
+            <td>
+                {{ item.files }}
+            </td>
+
+            <td>
+
+                {% if item.exists %}
+
+                    <span class="success">
+                        Available
+                    </span>
+
+                {% else %}
+
+                    <span class="danger">
+                        Not Found
+                    </span>
+
+                {% endif %}
+
+            </td>
+
+        </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}
