@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block page_title %}Model performance{% endblock %}
+{% block content %}
+<div class="page-intro"><h1>Performance analytics</h1><p class="muted">Five-model accuracy and confusion matrices for each selected dB + machine combination.</p></div>
+{% if metrics.combinations %}
+<div class="content-card">
+<div class="card-heading"><div><div class="eyebrow">TRAINED COMBINATIONS</div><h3>Results by dB and machine</h3></div></div>
+{% for key, item in metrics.combinations.items() %}
+<section class="content-card">
+<h3>{{ item.snr }} · {{ item.machine }}</h3>
+<p class="muted">{{ item.count }} labelled samples · {{ item.evaluation }} · Best model: {{ item.best_model }} ({{ '%.2f'|format(item.best_accuracy*100) }}%)</p>
+<div class="table-scroll"><table><thead><tr><th>Model</th><th>Accuracy</th><th>Macro Precision</th><th>Macro Recall</th><th>Macro F1</th></tr></thead><tbody>
+{% for model in item.models %}<tr><td><b>{{ model.Model }}</b>{% if loop.first %} <span class="best-pill">BEST</span>{% endif %}</td><td>{{ '%.2f'|format(model.Accuracy*100) }}%</td><td>{{ '%.2f'|format(model.Macro_Precision*100) }}%</td><td>{{ '%.2f'|format(model.Macro_Recall*100) }}%</td><td>{{ '%.2f'|format(model.Macro_F1*100) }}%</td></tr>{% endfor %}
+</tbody></table></div>
+{% for model in item.models %}<h4>{{ model.Model }} — Confusion Matrix</h4><p class="hint">Rows = actual · columns = predicted</p><div class="table-scroll"><table class="cm-table"><thead><tr><th>Actual / Predicted</th>{% for c in model.class_names %}<th>{{ c.replace('_',' ') }}</th>{% endfor %}</tr></thead><tbody>{% for row in model.confusion_matrix %}<tr><th>{{ model.class_names[loop.index0].replace('_',' ') }}</th>{% for val in row %}<td>{{ val }}</td>{% endfor %}</tr>{% endfor %}</tbody></table></div>{% endfor %}
+</section>
+{% endfor %}
+</div>
+{% else %}
+<div class="empty-state"><div class="module-icon purple">◫</div><h3>No performance report yet</h3><p>Go to Home, select a dB category and machine (Fan or Pump), and train all five models.</p><a class="btn primary" href="{{ url_for('home') }}">Go to Home →</a></div>
+{% endif %}
+{% endblock %}

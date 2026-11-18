@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block page_title %}Test model{% endblock %}
+{% block content %}
+<section class="welcome-row">
+  <div>
+    <h1>Test model</h1>
+    <p class="muted">Train/evaluate the selected dB dataset, view confusion-matrix images, or predict one new WAV file using all five saved models.</p>
+  </div>
+</section>
+
+<div class="test-layout">
+<section class="panel">
+  <div class="eyebrow">1 · DATASET EVALUATION</div>
+  <h2>Train five models on existing dataset</h2>
+  <form method="post" class="form-stack">
+    <input type="hidden" name="mode" value="evaluate">
+    <label for="snr">SNR / dB category</label>
+    <select id="snr" name="snr" required>
+      <option value="-6 dB" {% if selected_snr == '-6 dB' %}selected{% endif %}>−6 dB</option>
+      <option value="0 dB" {% if selected_snr == '0 dB' %}selected{% endif %}>0 dB</option>
+      <option value="+6 dB" {% if selected_snr == '+6 dB' %}selected{% endif %}>+6 dB</option>
+    </select>
+    <p class="hint">Automatically reads Fan Normal, Fan Abnormal, Pump Normal, and Pump Abnormal from the selected dB folder.</p>
+    <button class="btn primary" type="submit">▶ Train Fan + Pump and calculate accuracy</button>
+  </form>
+
+  {% if result and result.mode != 'predict' %}
+  <div class="result-box {% if result.error %}error{% else %}success{% endif %}">
+    {% if result.error %}
+      <h3>Evaluation could not complete</h3><p>{{ result.error }}</p>
+    {% elif result.running %}
+      <meta http-equiv="refresh" content="5">
+      <h3>Training in progress...</h3>
+      <p>{{ result.message }}</p>
+      <p class="hint">This page refreshes automatically every 5 seconds. Keep the terminal and server running.</p>
+    {% elif result.combo %}
+      <div class="eyebrow">RESULTS · {{ result.snr }} · FAN + PUMP</div>
+      <h2>Five-model accuracy comparison</h2>
+      <p>{{ result.combo.count }} labelled WAV files used. Best model: <strong>{{ result.combo.best_model }}</strong> ({{ '%.2f'|format(result.combo.best_accuracy * 100) }}%).</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Model</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>Macro F1</th></tr></thead>
+        <tbody>
+        {% for item in result.combo.models %}
+          <tr><td><strong>{{ item.Model }}</strong></td><td>{{ '%.2f'|format(item.Accuracy * 100) }}%</td><td>{{ '%.2f'|format(item.Macro_Precision * 100) }}%</td><td>{{ '%.2f'|format(item.Macro_Recall * 100) }}%</td><td>{{ '%.2f'|format(item.Macro_F1 * 100) }}%</td></tr>
+        {% endfor %}
+        </tbody>
+      </table></div>
+      <h2>Confusion matrix images</h2>
+      {% for item in result.combo.models %}
+        <div class="panel" style="margin-top:14px">
+          <h3>{{ item.Model }} — {{ '%.2f'|format(item.Accuracy * 100) }}% accuracy</h3>
+          {% if item.confusion_image %}
+            <img src="{{ url_for('static', filename=item.confusion_image) }}" alt="{{ item.Model }} confusion matrix" style="display:block;width:100%;max-width:650px;height:auto;border-radius:10px">
+          {% else %}
+            <p class="hint">Run training again to generate this confusion-matrix image.</p>
+          {% endif %}
+        </div>
+      {% endfor %}
+      <p class="hint">Metrics are cross-validation results on labelled dataset files.</p>
+    {% endif %}
+  </div>
+  {% endif %}
+</section>
+
+<section class="panel">
+  <div class="eyebrow">2 · NEW AUDIO PREDICTION</div>
+  <h2>Predict one new WAV file</h2>
+  <p class="muted">First train the selected dB category above. Then upload one new WAV file from your computer.</p>
+  <form method="post" enctype="multipart/form-data" class="form-stack">
+    <input type="hidden" name="mode" value="predict">
+    <label for="predict-snr">Trained dB model</label>
+    <select id="predict-snr" name="snr" required>
+      <option value="-6 dB" {% if selected_snr == '-6 dB' %}selected{% endif %}>−6 dB</option>
+      <option value="0 dB" {% if selected_snr == '0 dB' %}selected{% endif %}>0 dB</option>
+      <option value="+6 dB" {% if selected_snr == '+6 dB' %}selected{% endif %}>+6 dB</option>
+    </select>
+    <label for="audio_file">Choose one new WAV audio file</label>
+    <input id="audio_file" name="audio_file" type="file" accept=".wav,audio/wav" required>
+    <p class="hint">Select a single .wav file from your computer. No path needs to be typed. All five trained models will predict it.</p>
+    <button class="btn primary" type="submit">▶ Predict with all five models</button>
+  </form>
+  {% if result and result.mode == 'predict' %}
+  <div class="result-box {% if result.error %}error{% else %}success{% endif %}">
+    {% if result.error %}
+      <h3>Prediction failed</h3><p>{{ result.error }}</p>
+    {% else %}
+      <div class="eyebrow">PREDICTIONS · {{ result.snr }}</div>
+      <p><strong>Audio:</strong> {{ result.audio_path }}</p>
+      <div class="table-wrap"><table><thead><tr><th>Model</th><th>Predicted class</th></tr></thead><tbody>
+      {% for item in result.predictions %}
+        <tr><td>{{ item.model }}</td><td><strong>{{ item.prediction|replace('_',' ') }}</strong></td></tr>
+      {% endfor %}
+      </tbody></table></div>
+      <p class="hint">These are model predictions for the new recording. To calculate its true accuracy, its actual class label must be known.</p>
+    {% endif %}
+  </div>
+  {% endif %}
+</section>
+</div>
+{% endblock %}
